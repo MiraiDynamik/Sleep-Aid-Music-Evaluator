@@ -21,11 +21,6 @@ def analyze(filename):
     # Store the sampling rate as `sr`
     y, sr = librosa.load(filename)
 
-    # Measure tempo
-    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
-    frames_per_beat = 1/(tempo/60/sr)
-    # print('tempo: {:.2f} bpm'.format(tempo))
-
     # Measure spectral centroid
     centroids = librosa.feature.spectral_centroid(y=y, sr=sr)
     mean_centroid = np.mean(centroids)
@@ -36,6 +31,11 @@ def analyze(filename):
     decay_slopes = np.diff(envelope)
     mean_decay_slope = np.mean(decay_slopes[decay_slopes < 0])
     # print('mean decay slope: {:.2f}'.format(mean_decay_slope))
+
+    # Measure tempo
+    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    frames_per_beat = 1/(tempo/60/sr)
+    # print('tempo: {:.2f} bpm'.format(tempo))
 
     # Find the rhythmic activity or complexity
     onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
