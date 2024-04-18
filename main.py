@@ -22,6 +22,7 @@ def select_folder():
                 selected_files.append(file)
         break
 
+    print("processing:")
     print(selected_files)
     return selected_files, root_path
 

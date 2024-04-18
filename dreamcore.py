@@ -21,6 +21,12 @@ def analyze(filename):
     # Store the sampling rate as `sr`
     y, sr = librosa.load(filename)
 
+    # Measure tempo
+    tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
+    beats_per_frame = tempo/60/sr
+    frames_per_beat = 1/beats_per_frame
+    # print('tempo: {:.2f} bpm'.format(tempo))
+
     # Measure spectral centroid
     centroids = librosa.feature.spectral_centroid(y=y, sr=sr)
     mean_centroid = np.mean(centroids)
@@ -34,7 +40,11 @@ def analyze(filename):
 
     # Find the rhythmic activity or complexity
     onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
-    activity = np.std(np.diff(onset_frames))
+    onset_diff = np.diff(onset_frames)
+    for i in onset_diff:
+        if i >= 8 * frames_per_beat:
+            i = 8 * frames_per_beat  # remove pauses longer than 8 beats
+    activity = np.std(onset_diff)
     # print('rhythmic activity: {:.2f}'.format(activity))
 
     features = {'mfr': mean_centroid, 'articulation': mean_decay_slope, 'rhythmic_activity': activity}
