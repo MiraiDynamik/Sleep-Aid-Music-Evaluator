@@ -37,9 +37,4 @@ def process_selected_files(selected_files, root):
     return results
 
 
-def raise_above_all(window):
-    window.attributes('-topmost', 1)
-    window.attributes('-topmost', 0)
-
-
 eel.start('index.html', size=(800, 500))
