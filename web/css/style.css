@@ -1,10 +1,8 @@
-body, html {
-    height: 100vh;
+body {
     background: linear-gradient(180deg, rgba(123,0,255,1) 0%, rgba(255,151,151,0.7) 100%);
 }
 
 .btn-xl {
-    color:
     padding: 0px 0px;
     font-size: 45px;
     border-radius: 50px;
@@ -14,11 +12,11 @@ body, html {
 
 .top-container {
     background: rgb(123,0,255,1);
-    height: 37vh;
+    height: 39.5vh;
 }
 
 .bottom-container{
-    height: 39vh;
+    height: 41.5vh;
     background: rgba(255,151,151,0.7);
 }
 
@@ -29,5 +27,9 @@ body, html {
     font-size: 20px;
     text-align: left;
     padding: 5px 15px;
+    color: #ffffff;
+}
+
+.word{
     color: #ffffff;
 }

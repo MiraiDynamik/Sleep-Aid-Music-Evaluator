@@ -3,11 +3,11 @@ document.getElementById("btn-selectFolder").addEventListener("click", function()
         let selected_files = response[0];
         let root = response[1];
         var spinner_place = document.getElementById("spinnerPlace");
-        spinner_place.innerHTML = '<div class="spinner-border text-light" role="status"></div>';
+        spinner_place.innerHTML = '<div class="spinner-border text-light mt-2" role="status"></div>'; //display a spinner
         eel.process_selected_files(selected_files, root)(function(results) {
             console.log(results);
             display(results);
-            spinner_place.innerHTML = '';
+            spinner_place.innerHTML = '<p class="word text-center m-0">that contains any .mp3 files</p>'; //remove the spinner
         });
     });
 })
@@ -37,7 +37,7 @@ function display(results) {
     existingItems.forEach(function(item) {
         var li = document.createElement("li");
         li.className = "result-list-item"
-        li.textContent = item[1] + "   " + item[0];
+        li.textContent = item[1] + "        " + item[0];
         out_list.appendChild(li);
     });
 }
