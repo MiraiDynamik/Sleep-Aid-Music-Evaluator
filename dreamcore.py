@@ -65,9 +65,9 @@ experiments, or machine learning approaches.
 
 def assess(features):
     score = 60
-    factor_mfr = 60000
+    factor_mfr = 70000
     factor_articulation = 70
-    factor_rhythmic_activity = -1.2
+    factor_rhythmic_activity = -30
 
     # Assess main frequency register
     mean_success_mfr = 1822
