@@ -35,6 +35,7 @@ function display(results) {
     outList.innerHTML = '';
     existingItems.forEach(function(item) {
         var li = document.createElement("li");
+        li.className = "result-list-item"
         li.textContent = item[1] + "   " + item[0];
         outList.appendChild(li);
     });

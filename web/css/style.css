@@ -1,12 +1,5 @@
-.li {
-    display: block; /* Makes each listItem appear on its own line */
-    height: 1em; /* Line height */
-    line-height: 1em;
-    text-align: left;
-    padding: 10px;
-    margin-bottom: 10px; /* Adds space between items */
-    color: black;
-    background-color: #FF0000; /* Default color */
+body, html {
+    background: linear-gradient(180deg, rgba(123,0,255,1) 0%, rgba(255,151,151,0.7) 100%);
 }
 
 .btn-xl {
@@ -19,13 +12,21 @@
 }
 
 .top-container {
-  height: 37vh;
+    background: rgb(123,0,255,1);
+    height: 37vh;
 }
 
-body {
-    background-image: url('../images/bg.png'); /* Adjust path as necessary */
-    background-repeat: no-repeat;
-    background-attachment: scroll; /* This is the default behavior */
-    background-size: cover; /* Cover the entire area of the view */
-    background-position: center center; /* Center the background image */
+.bottom-container{
+    height: 39vh;
+    background: rgba(255,151,151,0.7);
+}
+
+.result-list-item{
+    list-style-type: "";
+    background: rgb(255,255,255,0);
+    height: 40px;
+    font-size: 20px;
+    text-align: left;
+    padding: 5px 15px;
+    color: #ffffff;
 }

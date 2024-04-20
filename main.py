@@ -38,4 +38,4 @@ def process_selected_files(selected_files, root):
     return results
 
 
-eel.start('index.html', size=(800, 500))
+eel.start('index.html')
