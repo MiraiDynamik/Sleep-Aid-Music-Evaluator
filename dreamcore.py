@@ -34,16 +34,18 @@ def analyze(filename):
 
     # Measure tempo
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
-    frames_per_beat = 1/(tempo/60/sr)
+    seconds_per_beat = 60/tempo
     # print('tempo: {:.2f} bpm'.format(tempo))
 
     # Find the rhythmic activity or complexity
-    onset_frames = librosa.onset.onset_detect(y=y, sr=sr)
+    onset_frames = librosa.onset.onset_detect(y=y, sr=sr, units='time')
     onset_diff = np.diff(onset_frames)
 
     for i in range(len(onset_diff)):
-        if onset_diff[i] >= 8 * frames_per_beat:
-            onset_diff[i] = 8 * frames_per_beat  # remove pauses longer than 8 beats
+        # print(onset_diff[i])
+        # print(4 * seconds_per_beat)
+        if onset_diff[i] >= 4 * seconds_per_beat:
+            onset_diff[i] = 4 * seconds_per_beat  # remove pauses longer than 4 beats
 
     activity = np.std(onset_diff)
     # print('rhythmic activity: {:.2f}'.format(activity))
@@ -63,16 +65,10 @@ experiments, or machine learning approaches.
 
 def assess(features):
     score = 60
-    factor_mfr = 75000
-    factor_articulation = 50
-    factor_rhythmic_activity = -1
-    '''
-    factors = {
-        'mfr': {'weight': 75000, 'mean_success': 1822, 'sd_success': 810, 'mean_unsuccess': 2423, 'sd_unsuccess': 1075},
-        'articulation': {'weight': 50, 'mean_success': -1.8, 'sd_success': .71, 'mean_unsuccess': -2.25, 'sd_unsuccess': .88},
-        'rhythmic_activity': {'weight': -1}
-    }
-    '''
+    factor_mfr = 60000
+    factor_articulation = 70
+    factor_rhythmic_activity = -1.2
+
     # Assess main frequency register
     mean_success_mfr = 1822
     sd_success_mfr = 810
@@ -96,9 +92,12 @@ def assess(features):
 
     # Put things together
     score += int(score_mfr + score_articulation + score_rhythmic_activity)
+    print(str(score_mfr) +' '+ str(score_articulation) +' '+ str(score_rhythmic_activity))
 
     if score >= 100:
         score = 100
+    if score <= 0:
+        score = 0
 
     return score
 
