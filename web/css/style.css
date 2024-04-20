@@ -16,8 +16,11 @@ body {
 }
 
 .bottom-container{
-    height: 41.5vh;
+    height: 100vh;
     background: rgba(255,151,151,0.7);
+    display: flex;
+    align-items: flex-end; /* Aligns content to the bottom */
+    justify-content: center; /* Centers content horizontally */
 }
 
 .result-list-item{
@@ -32,4 +35,13 @@ body {
 
 .word{
     color: #ffffff;
+}
+
+.ascii-art {
+    color: #ffffff;
+    font-size: 0.5rem;
+    margin: 0;
+    padding: 0;
+    background: none;
+    font-weight: bold;
 }

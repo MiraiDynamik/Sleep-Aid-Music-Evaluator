@@ -50,6 +50,12 @@ def analyze(filename):
     activity = np.std(onset_diff)
     # print('rhythmic activity: {:.2f}'.format(activity))
 
+    '''
+    Here, I obtained the derivative of stdev to prevent the same rhythm pattern gets higher activity when it becomes 
+    slower; then, I put the derivative onto an exponential to better distinguish between rhythm patterns with high 
+    activity and make rhythmic patterns with low activity relatively closer.
+    '''
+
     features = {'mfr': mean_centroid, 'articulation': mean_decay_slope, 'rhythmic_activity': activity}
     return features
 

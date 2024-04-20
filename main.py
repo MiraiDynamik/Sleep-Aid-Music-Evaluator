@@ -11,7 +11,7 @@ def select_folder():
     dialog_root = Tk()
     dialog_root.attributes("-topmost", True)
     selected_files = []
-    acceptable_formats = ['mp3', 'wav']
+    acceptable_formats = ['mp3']
     folder_path = filedialog.askdirectory()
     dialog_root.withdraw()
 
