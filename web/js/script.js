@@ -1,12 +1,13 @@
 document.getElementById("btn-selectFolder").addEventListener("click", function() {
-    eel.select_folder()(function(response)
-
-    {
+    eel.select_folder()(function(response) {
         let selected_files = response[0];
         let root = response[1];
+        var spinner_place = document.getElementById("spinnerPlace");
+        spinner_place.innerHTML = '<div class="spinner-border text-light" role="status"></div>';
         eel.process_selected_files(selected_files, root)(function(results) {
             console.log(results);
             display(results);
+            spinner_place.innerHTML = '';
         });
     });
 })
@@ -31,13 +32,13 @@ function display(results) {
     }
 
     //display all results
-    var outList = document.getElementById("outList");
-    outList.innerHTML = '';
+    var out_list = document.getElementById("outList");
+    out_list.innerHTML = '';
     existingItems.forEach(function(item) {
         var li = document.createElement("li");
         li.className = "result-list-item"
         li.textContent = item[1] + "   " + item[0];
-        outList.appendChild(li);
+        out_list.appendChild(li);
     });
 }
 
