@@ -17,7 +17,7 @@ body {
 
 .bottom-container{
     height: 100vh;
-    background: rgba(255,151,151,0.7);
+    background: rgb(255,151,151,0.7);
     display: flex;
     align-items: flex-end; /* Aligns content to the bottom */
     justify-content: center; /* Centers content horizontally */
@@ -39,9 +39,14 @@ body {
 
 .ascii-art {
     color: #ffffff;
-    font-size: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.1;
     margin: 0;
     padding: 0;
     background: none;
-    font-weight: bold;
+    font-weight: 500;
+}
+
+.nav-link {
+    color: white;
 }
