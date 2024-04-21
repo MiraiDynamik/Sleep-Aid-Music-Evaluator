@@ -37,7 +37,7 @@ function display(results) {
     existingItems.forEach(function(item) {
         var li = document.createElement("li");
         li.className = "result-list-item"
-        li.textContent = item[1] + "        " + item[0];
+        li.textContent = item[1] + " —— " + item[0];
         out_list.appendChild(li);
     });
 }
