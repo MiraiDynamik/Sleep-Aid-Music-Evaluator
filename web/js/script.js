@@ -15,7 +15,7 @@ document.getElementById("btn-selectFolder").addEventListener("click", function()
 var existingItems=new Array();
 
 function display(results) {
-    //prevent repetition and sort
+    //prevent repetition，sort when add
     for (var i = 0; i < results.length; i++) {
         let result = results[i];
         let exists = false;
