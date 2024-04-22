@@ -5,12 +5,12 @@ import librosa.feature
 from scipy.stats import norm
 
 '''
-According to Dickson and Schubert (2020), researchers compared nine features of music that successfully and 
-unsuccessfully aids sleep, finding three of them differed significantly. Successful music has a lower main frequency 
-register, more smoothly connected notes, and lower rhythmic activity. This function can extract these three features.
+Dickson and Schubert (2020) compared nine music features that successfully and unsuccessfully aid sleep, finding that 
+three differed significantly. Successful music has a lower main frequency register, more smoothly connected notes, and 
+lower rhythmic activity. This function can extract these three features.
 
-Finding the main frequency register of music by measuring spectral centroid, and finding the articulation of music by 
-measuring mean decay slope are similar to the methods used in research, but according to the research, they used aural 
+Finding the main frequency register of music by measuring spectral centroid and finding the articulation of music by 
+measuring mean decay slope is similar to the methods used in research, but according to the research, they used aural 
 analysis to find the rhythmic activity, which is impossible to replicate in the code, so I designed my approach to 
 measure this value.
 '''
@@ -45,7 +45,7 @@ def analyze(filename):
         # print(onset_diff[i])
         # print(4 * seconds_per_beat)
         if onset_diff[i] >= 4 * seconds_per_beat:
-            onset_diff[i] = 4 * seconds_per_beat  # remove pauses longer than 4 beats
+            onset_diff[i] = 4 * seconds_per_beat  # cap pauses longer than 4 beats
 
     activity = np.std(onset_diff)
     # print('rhythmic activity: {:.2f}'.format(activity))
@@ -56,16 +56,20 @@ def analyze(filename):
     activity and make rhythmic patterns with low activity relatively closer.
     '''
 
-    features = {'mfr': mean_centroid, 'articulation': mean_decay_slope, 'rhythmic_activity': activity}
+    features = {
+        'mfr': mean_centroid,
+        'articulation': mean_decay_slope,
+        'rhythmic_activity': activity
+    }
     return features
 
 
 '''
 Assessment function of features extracted.
-According to Dickson and Schubert (2020), I developed the criteria directly based on specific data came form their 
-research. However the weight of each features are determined on my personal experience and own understanding of the 
-literature. The accuracy of comparative weight can be further improved by the referral of more researches, scientific 
-experiments, or machine learning approaches.
+According to Dickson and Schubert (2020), I developed the criteria based on specific data directly from their research. 
+However, the weight of each feature is determined by my personal experience and my own understanding of the literature. 
+The referral of more research, scientific experiments, or machine learning approaches can further improve the accuracy 
+of comparative weight.
 '''
 
 
@@ -81,7 +85,13 @@ def assess(features):
     mean_unsuccess_mfr = 2423
     sd_unsuccess_mfr = 1075
 
-    score_mfr = assess_feature(features['mfr'], mean_success_mfr, sd_success_mfr, mean_unsuccess_mfr, sd_unsuccess_mfr)
+    score_mfr = assess_feature(
+        features['mfr'],
+        mean_success_mfr,
+        sd_success_mfr,
+        mean_unsuccess_mfr,
+        sd_unsuccess_mfr
+    )
     score_mfr *= factor_mfr
 
     # Assess articulation
@@ -90,7 +100,13 @@ def assess(features):
     mean_unsuccess_articulation = -2.25
     sd_unsuccess_articulation = .88
 
-    score_articulation = assess_feature(features['articulation'], mean_success_articulation, sd_success_articulation, mean_unsuccess_articulation, sd_unsuccess_articulation)
+    score_articulation = assess_feature(
+        features['articulation'],
+        mean_success_articulation,
+        sd_success_articulation,
+        mean_unsuccess_articulation,
+        sd_unsuccess_articulation
+    )
     score_articulation *= factor_articulation
 
     # Assess rhythmic activity
@@ -98,7 +114,7 @@ def assess(features):
 
     # Put things together
     score += int(score_mfr + score_articulation + score_rhythmic_activity)
-    print(str(score_mfr) +' '+ str(score_articulation) +' '+ str(score_rhythmic_activity))
+    print(str(score_mfr) + ' ' + str(score_articulation) + ' ' + str(score_rhythmic_activity))
 
     if score >= 100:
         score = 100
