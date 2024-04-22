@@ -5,7 +5,7 @@ import librosa.feature
 from scipy.stats import norm
 
 '''
-Dickson and Schubert (2020) compared nine music features that successfully and unsuccessfully aid sleep, finding that 
+Dickson and Schubert (2020) compared nine features of music that successfully and unsuccessfully aid sleep, finding that 
 three differed significantly. Successful music has a lower main frequency register, more smoothly connected notes, and 
 lower rhythmic activity. This function can extract these three features.
 
