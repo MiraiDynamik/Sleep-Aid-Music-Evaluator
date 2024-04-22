@@ -1,3 +1,5 @@
+// Sleep-Aid-Music-Evaluator/web/js/script.js
+
 // Array for music-score pairs
 var existingItems=new Array();
 
@@ -11,10 +13,23 @@ function click() {
 
          // Display a spinner
         var spinner_place = document.getElementById("spinnerPlace");
-        spinner_place.innerHTML = '<div class="spinner-border text-light mt-2" role="status"></div>';
+        spinner_place.innerHTML =
+            '<div class="spinner-border text-light mt-2" role="status"></div>';
 
-        // Prevent repeating items
-        selectedFiles = selectedFiles.filter(file => !existingItems.some(item => item[0] === file));
+        let filteredFiles = [];
+        for (let file of selectedFiles) {
+            let exists = false;
+            for (let item of existingItems) {
+                if (item[0] === file) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                filteredFiles.push(file);
+            }
+        }
+        selectedFiles = filteredFiles;
 
         // Process selected files with python
         eel.process_selected_files(selectedFiles, selectedRoot)(function(eel_process_return) {
@@ -30,7 +45,7 @@ function click() {
 // Array for music-score pairs, always exists
 var existingItems=new Array();
 
-// Prevent repetition，sort when add item
+// Sort when add item
 function display_results(results) {
     for (var i = 0; i < results.length; i++) {
         var place = find_insertion_index(results[i][1]); // results[i][1] is the score of music file i

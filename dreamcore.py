@@ -1,4 +1,4 @@
-#  dreamcore.py, functions here are used in main.py
+#  Sleep-Aid-Music-Evaluator/dreamcore.py, functions here are used in main.py
 
 import numpy as np
 import librosa.feature
