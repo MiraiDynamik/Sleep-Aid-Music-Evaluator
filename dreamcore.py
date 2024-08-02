@@ -47,7 +47,9 @@ def analyze(filename):
         if onset_diff[i] >= 4 * seconds_per_beat:
             onset_diff[i] = 4 * seconds_per_beat  # cap pauses longer than 4 beats
 
-    activity = np.std(onset_diff)
+    normalized_onset_diff = onset_diff * 120 / tempo
+
+    activity = np.std(normalized_onset_diff)
     # print('rhythmic activity: {:.2f}'.format(activity))
 
     '''
