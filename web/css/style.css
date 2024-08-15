@@ -14,11 +14,9 @@ body {
 
 .top-container {
     background: rgb(123,0,255,1);
-    height: 39.5vh;
 }
 
 .bottom-container{
-    height: 100vh;
     background: rgb(255,151,151,0.7);
     display: flex;
     align-items: flex-end; /* Aligns content to the bottom */

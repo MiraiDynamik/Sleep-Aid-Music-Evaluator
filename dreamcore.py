@@ -2,7 +2,9 @@
 
 import numpy as np
 import librosa.feature
-from scipy.stats import norm
+from scipy.stats import norm, entropy
+from collections import Counter
+
 
 '''
 Dickson and Schubert (2020) compared nine features of music that successfully and unsuccessfully aid sleep, finding that 
@@ -10,9 +12,9 @@ three differed significantly. Successful music has a lower main frequency regist
 lower rhythmic activity. This function can extract these three features.
 
 Finding the main frequency register of music by measuring spectral centroid and finding the articulation of music by 
-measuring mean decay slope is similar to the methods used in research, but according to the research, they used aural 
-analysis to find the rhythmic activity, which is impossible to replicate in the code, so I designed my approach to 
-measure this value.
+measuring mean decay slope are simulations to the methods used in research, but according to the research, they used 
+aural analysis to find the rhythmic activity, which is impossible to replicate in the code. My approach will calculate 
+the entropy of the rhythms to quantify the rhythmic activity.
 '''
 
 
@@ -35,28 +37,26 @@ def analyze(filename):
     # Measure tempo
     tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
     seconds_per_beat = 60/tempo
-    # print('tempo: {:.2f} bpm'.format(tempo))
+    print('tempo: {:.2f} bpm'.format(tempo))
 
     # Find the rhythmic activity or complexity
     onset_frames = librosa.onset.onset_detect(y=y, sr=sr, units='time')
     onset_diff = np.diff(onset_frames)
 
+    # Round onset diff to cancel an unexpected increase of entropy due to the error of onset detection
     for i in range(len(onset_diff)):
-        # print(onset_diff[i])
-        # print(4 * seconds_per_beat)
-        if onset_diff[i] >= 4 * seconds_per_beat:
-            onset_diff[i] = 4 * seconds_per_beat  # cap pauses longer than 4 beats
+        onset_diff[i] = round(onset_diff[i], 2)
+        print(onset_diff[i])
 
-    normalized_onset_diff = onset_diff * 120 / tempo
+    # Count the frequency of each interval(onset diff) value
+    counts = Counter(onset_diff).values()
+    probs = []
+    for count in counts:
+        probs.append(count / len(onset_diff))
 
-    activity = np.std(normalized_onset_diff)
+    # Calculate rhythmic activity using entropy
+    activity = entropy(probs, base=2)
     # print('rhythmic activity: {:.2f}'.format(activity))
-
-    '''
-    Here, I obtained the derivative of stdev to prevent the same rhythm pattern gets higher activity when it becomes 
-    slower; then, I put the derivative onto an exponential to better distinguish between rhythm patterns with high 
-    activity and make rhythmic patterns with low activity relatively closer.
-    '''
 
     features = {
         'mfr': mean_centroid,
@@ -77,9 +77,9 @@ of comparative weight.
 
 def assess(features):
     score = 50
-    factor_mfr = 75000
-    factor_articulation = 70
-    factor_rhythmic_activity = -20
+    factor_mfr = 90000
+    factor_articulation = 80
+    factor_rhythmic_activity = -3
 
     # Assess main frequency register
     mean_success_mfr = 1822
