@@ -1,1 +1,1 @@
-The project was started as the create task of AP CSP exam 2024
+The project was started in March 2024 as the create task of AP CSP exam 2024.
